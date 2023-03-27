@@ -1,0 +1,41 @@
+---
+- name: 플레이북 복원  
+  hosts: all 
+  tasks:
+  #1) 방화벽 헤제 
+  #2) 서비스 헤제 
+  #3) 패키지 삭제 
+  #4) 설정 파일 제거(root)
+  
+
+
+  - name: 1)방화벽 헤제 
+    firewalld:
+      service: dns 
+      permanent: no
+      immediate: no 
+      state: disabled 
+  
+  - name: 2)서비스 헤제
+    service: 
+      name: "{{ item }}"
+      state: stopped
+    with_items: 
+      - named
+      - firewalld 
+
+  - name: 3) 패키지 삭제 
+    yum:
+      name: "{{ item }}"
+      state: absent
+    with_items:
+      - bind
+      - bind-utils
+      - firewalld 
+
+  - name: 4)설정 파일 제거 (root)
+    file:
+      name: /var/named 
+      state: directory
+
+

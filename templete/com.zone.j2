@@ -1,0 +1,7 @@
+soldesk     IN  A   ns1.soldesk
+sn1.soldesk IN  A     192.168.10.14 
+EOF 
+
+LAST_IP=14
+cat << EOF >> templete/com.rev.j2 
+         IN     PTR     ns1.soldesk.com
